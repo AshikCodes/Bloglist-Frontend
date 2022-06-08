@@ -3,14 +3,15 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import userService from './services/user'
+import './app.css';
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newBlogs, setNewBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
+  const [msg, setMsg] = useState('')
 
   const [blogTitle, setBlogTitle] = useState('')
   const [blogAuthor, setBlogAuthor] = useState('')
@@ -56,11 +57,11 @@ const App = () => {
       setPassword('')
     }
     catch(error){
-      setErrorMsg('Wrong credentials')
+      setErrorMsg('Wrong username or password')
       console.log("got here error")
       setTimeout(() => {
-        setErrorMsg(null)
-      },[])
+        setErrorMsg('')
+      },3000)
     }
   }
 
@@ -86,6 +87,10 @@ const App = () => {
       user.blog = user.blog.concat(newBlog)
       console.log("New USER IS ", user)
       window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
+      setMsg(`a new blog ${newBlog.title} by ${user.name}`)
+      setTimeout(() => {
+        setMsg('')
+      },3000)
       setBlogTitle('')
       setBlogAuthor('')
       setBlogUrl('')
@@ -100,6 +105,8 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      {msg !== '' && <h1 className='successMsg-container'>{msg}</h1>}
+      {errorMsg !== '' && <h1 className='errorMsg-container'>{errorMsg}</h1>}
       {user == null && <div className="login-form">
       <form onSubmit={handleLogin}>
       <div className="username-container">

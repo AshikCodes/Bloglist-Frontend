@@ -1,0 +1,15 @@
+.successMsg-container {
+    background-color: rgb(175, 179, 175);
+    color: green;
+    border: solid green 1px;
+    border-radius: 5px;
+    padding: 8px;
+}
+
+.errorMsg-container {
+    background-color: rgb(175, 179, 175);
+    color: rgb(245, 70, 70);
+    border: solid rgb(245, 70, 70) 1px;
+    border-radius: 5px;
+    padding: 8px;
+}
