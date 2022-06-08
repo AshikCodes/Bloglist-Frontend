@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Login from './components/Login'
+import CreateBlog from './components/CreateBlog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import userService from './services/user'
@@ -16,6 +18,9 @@ const App = () => {
   const [blogTitle, setBlogTitle] = useState('')
   const [blogAuthor, setBlogAuthor] = useState('')
   const [blogUrl, setBlogUrl] = useState('')
+
+  const [visibility, setVisibility] = useState(false)
+
 
   useEffect( () => {
     // blogService.getAll().then(blogs =>
@@ -87,7 +92,8 @@ const App = () => {
       user.blog = user.blog.concat(newBlog)
       console.log("New USER IS ", user)
       window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
-      setMsg(`a new blog ${newBlog.title} by ${user.name}`)
+      setVisibility(false)
+      setMsg(`a new blog ${newBlog.title} by ${user.name} added`)
       setTimeout(() => {
         setMsg('')
       },3000)
@@ -107,31 +113,31 @@ const App = () => {
       <h2>blogs</h2>
       {msg !== '' && <h1 className='successMsg-container'>{msg}</h1>}
       {errorMsg !== '' && <h1 className='errorMsg-container'>{errorMsg}</h1>}
-      {user == null && <div className="login-form">
-      <form onSubmit={handleLogin}>
-      <div className="username-container">
-        username
-        <input type='text' value={username} onChange={(e) => setUsername(e.target.value)} name='username'/>
-      </div>
-      <div className="password-container">
-        password
-        <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} name='password'/>
-      </div>
-      <button type='submit'>Login</button>
-      </form>
-      </div>}
+      {user == null && 
+      <Login
+        handleLogin={handleLogin}
+        setUsername={setUsername}
+        setPassword={setPassword}
+        username={username}
+        password={password}>
+      </Login>
+      }
       {user != null && <div className="notes">
         <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
       </div>}
-      {user != null && <div className="addBlog-container">
-      <b>create new</b>
-      <form onSubmit={addNewBlog}>
-        <label>Title:</label><input type="text" value={blogTitle} onChange={(e) => setBlogTitle(e.target.value)} name="blog-title"/>
-        <label>Author:</label><input type="text" value={blogAuthor} onChange={(e) => setBlogAuthor(e.target.value)} name="blog-author"/>
-        <label>Url:</label><input type="text" value={blogUrl} onChange={(e) => setBlogUrl(e.target.value)} name="blog-url"/>
-        <button type='submit'>create blog</button>
-      </form>
-      </div>}
+      {user != null && 
+      <CreateBlog
+        addNewBlog={addNewBlog}
+        blogTitle={blogTitle}
+        blogAuthor={blogAuthor}
+        blogUrl={blogUrl}
+        setBlogTitle={setBlogTitle}
+        setBlogAuthor={setBlogAuthor}
+        setBlogUrl={setBlogUrl}
+        visibility={visibility} 
+        setVisibility={setVisibility}>
+      </CreateBlog>
+      }
       {blogs != null && blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
