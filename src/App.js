@@ -6,6 +6,7 @@ import userService from './services/user'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
+  const [newBlogs, setNewBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -21,18 +22,24 @@ const App = () => {
     if(user != null){
       setBlogs(user.blog)
     }
+    console.log("blogs is", blogs)
   }, [user])
-
-
-
 
   useEffect(() => {
     const loggedInUser = window.localStorage.getItem('loggedBlogUser')
+    console.log("loggedInUser is", loggedInUser)
     if(loggedInUser){
       const user = JSON.parse(loggedInUser)
+      blogService.setToken(user.token)
+      // setBlogs(user.blog)
+      console.log("user is", user)
       setUser(user)
     }
+    else{
+      console.log("Error here,", JSON.parse(loggedInUser))
+    }
   },[])
+
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -40,6 +47,7 @@ const App = () => {
     try {
       console.log("got here")
       const user = await loginService({username, password})
+      setBlogs(user.blog)
       console.log("user is", user)
       blogService.setToken(user.token)
       window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
@@ -75,6 +83,9 @@ const App = () => {
       }
       await blogService.createBlog(newBlog)
       setBlogs(blogs.concat(newBlog))
+      user.blog = user.blog.concat(newBlog)
+      console.log("New USER IS ", user)
+      window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
       setBlogTitle('')
       setBlogAuthor('')
       setBlogUrl('')
