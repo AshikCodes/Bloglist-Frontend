@@ -15,10 +15,6 @@ const App = () => {
   const [errorMsg, setErrorMsg] = useState('')
   const [msg, setMsg] = useState('')
 
-  const [blogTitle, setBlogTitle] = useState('')
-  const [blogAuthor, setBlogAuthor] = useState('')
-  const [blogUrl, setBlogUrl] = useState('')
-
   const [visibility, setVisibility] = useState(false)
 
 
@@ -37,7 +33,6 @@ const App = () => {
     if(loggedInUser){
       const user = JSON.parse(loggedInUser)
       blogService.setToken(user.token)
-      // setBlogs(user.blog)
       console.log("user is", user)
       setUser(user)
     }
@@ -75,37 +70,22 @@ const App = () => {
     setUser(null)
     setBlogs([])
   }
-
-  const addNewBlog = async (e) => {
-    e.preventDefault()
-
-    console.log("User here is", user)
-
+  
+  const addNewBlog = async (blogObject) => {
     try {
-      const newBlog = {
-        title: blogTitle,
-        author: blogAuthor,
-        url: blogUrl
-      }
-      await blogService.createBlog(newBlog)
-      setBlogs(blogs.concat(newBlog))
-      user.blog = user.blog.concat(newBlog)
-      console.log("New USER IS ", user)
+      await blogService.createBlog(blogObject)
+      setBlogs(blogs.concat(blogObject))
+      user.blog = user.blog.concat(blogObject)
       window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
       setVisibility(false)
-      setMsg(`a new blog ${newBlog.title} by ${user.name} added`)
+      setMsg(`a new blog ${blogObject.title} by ${user.name} added`)
       setTimeout(() => {
         setMsg('')
       },3000)
-      setBlogTitle('')
-      setBlogAuthor('')
-      setBlogUrl('')
     }
     catch(error){
       console.log("error adding new blog", error)
     }
-
-    console.log("blogs is", blogs)
   }
 
   return (
@@ -128,12 +108,12 @@ const App = () => {
       {user != null && 
       <CreateBlog
         addNewBlog={addNewBlog}
-        blogTitle={blogTitle}
-        blogAuthor={blogAuthor}
-        blogUrl={blogUrl}
-        setBlogTitle={setBlogTitle}
-        setBlogAuthor={setBlogAuthor}
-        setBlogUrl={setBlogUrl}
+        // blogTitle={blogTitle}
+        // blogAuthor={blogAuthor}
+        // blogUrl={blogUrl}
+        // setBlogTitle={setBlogTitle}
+        // setBlogAuthor={setBlogAuthor}
+        // setBlogUrl={setBlogUrl}
         visibility={visibility} 
         setVisibility={setVisibility}>
       </CreateBlog>
