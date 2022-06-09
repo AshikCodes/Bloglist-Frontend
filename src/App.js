@@ -70,7 +70,7 @@ const App = () => {
     setUser(null)
     setBlogs([])
   }
-  
+
   const addNewBlog = async (blogObject) => {
     try {
       await blogService.createBlog(blogObject)
@@ -108,12 +108,6 @@ const App = () => {
       {user != null && 
       <CreateBlog
         addNewBlog={addNewBlog}
-        // blogTitle={blogTitle}
-        // blogAuthor={blogAuthor}
-        // blogUrl={blogUrl}
-        // setBlogTitle={setBlogTitle}
-        // setBlogAuthor={setBlogAuthor}
-        // setBlogUrl={setBlogUrl}
         visibility={visibility} 
         setVisibility={setVisibility}>
       </CreateBlog>

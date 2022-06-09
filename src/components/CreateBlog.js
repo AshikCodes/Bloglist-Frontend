@@ -14,15 +14,14 @@ const CreateBlog = ({addNewBlog, visibility, setVisibility}) => {
         const newBlog = {
             title: blogTitle,
             author: blogAuthor,
-            url: blogUrl
+            url: blogUrl,
+            likes:0
             }
 
         addNewBlog(newBlog)
         setBlogTitle('')
         setBlogAuthor('')
         setBlogUrl('')
-
-
     }
 
     return ( 

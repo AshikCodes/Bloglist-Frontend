@@ -13,3 +13,19 @@
     border-radius: 5px;
     padding: 8px;
 }
+
+.blog-container {
+    margin-top: 5px;
+    border: solid 1px black;
+    padding: 7px
+}
+
+.extra-blog-info {
+    list-style-type: none;
+}
+
+ul {
+    margin: 0px;
+    list-style-type: none;
+    padding: 0px;
+}
