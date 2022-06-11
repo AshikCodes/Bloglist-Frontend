@@ -27,6 +27,7 @@ const App = () => {
     console.log("blogs is", blogs)
   }, [user])
 
+
   useEffect(() => {
     const loggedInUser = window.localStorage.getItem('loggedBlogUser')
     console.log("loggedInUser is", loggedInUser)
@@ -73,10 +74,16 @@ const App = () => {
 
   const addNewBlog = async (blogObject) => {
     try {
-      await blogService.createBlog(blogObject)
-      setBlogs(blogs.concat(blogObject))
-      user.blog = user.blog.concat(blogObject)
+      const result = await blogService.createBlog(blogObject)
+      const result2 = await blogService.getUserBlogs(result.blog.slice(-1)[0])
+      console.log("RESULT 2 is", result2)
+      // setBlogs(result2)
+      console.log("blogs is", blogs)
+      // user.blog = user.blog.concat(blogObject)
+      user.blog = user.blog.concat(result2)
       window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
+      setBlogs(user.blog)
+      console.log("USER USER USER IS", user)
       setVisibility(false)
       setMsg(`a new blog ${blogObject.title} by ${user.name} added`)
       setTimeout(() => {
@@ -112,8 +119,8 @@ const App = () => {
         setVisibility={setVisibility}>
       </CreateBlog>
       }
-      {blogs != null && blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+      {blogs !== null && blogs.map(blog =>
+        <Blog key={blog.id} blog={blog} setBlogs={setBlogs} user={user} />
       )}
     </div>
   )

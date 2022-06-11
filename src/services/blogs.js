@@ -14,7 +14,8 @@ const getAll = async () => {
 }
 
 const getUserBlogs = async (id) => {
-  const request = await axios.get(baseUrl,id)
+  const request = await axios.get(`/api/blogs/${id}`)
+  console.log("Request here is", request)
   return request.data
 }
 
@@ -27,5 +28,11 @@ const createBlog = async (newBlog) => {
 }
 
 
+const updateBlog = async (newBlog,id) => {
+  const response = await axios.put(`/api/blogs/${id}`,newBlog)
+  return response.data
+}
 
-export default { getAll, setToken,createBlog, getUserBlogs }
+
+
+export default { getAll, setToken,createBlog, getUserBlogs, updateBlog }
