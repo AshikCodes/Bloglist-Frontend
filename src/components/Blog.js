@@ -4,10 +4,12 @@ import blogService from "../services/blogs"
 const Blog = ({blog,user,setBlogs,setSortedArray,setUser}) => {
   const [view, setView] = useState(false)
   const [likeCount, setLikeCount] = useState(0)
+  const [deleted, setDeleted] = useState(false)
   
 
   const hideWhenVisible = {display: view ? 'none' : ''}
   const showWhenVisible = {display: view ? '': 'none'}
+  const hideWhenDeleted = {display: deleted ? 'none': ''}
 
   const handleLikeClick = async (blog) => {
     console.log("likeCount here is", likeCount)
@@ -49,8 +51,19 @@ const Blog = ({blog,user,setBlogs,setSortedArray,setUser}) => {
     }
   }
 
+  const handleDelete = async (blog) => {
+    var elementPos = user.blog.map(ranBlog => {return ranBlog.id}).indexOf(blog.id)
+    user.blog.splice(elementPos,1)
+    setUser(user)
+    window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
+    const blogToDelete = await blogService.deleteBlog(blog.id)
+    console.log("blogToDelete is", blogToDelete)
+    setDeleted(true)
+
+  }
+
   return ( 
-    <div className="blog-container">
+    <div className="blog-container" style={hideWhenDeleted}>
         {blog.title}  
         <button onClick={() => setView(true)} style={hideWhenVisible}>view</button>
         <button onClick={() => setView(false)} style={showWhenVisible}>hide</button>
@@ -62,6 +75,7 @@ const Blog = ({blog,user,setBlogs,setSortedArray,setUser}) => {
             {likeCount !== 0 && <ul>likes: {likeCount} <button onClick={() => handleLikeClick(blog)}>like</button></ul>}
               <ul>{blog.author}</ul>
               <ul>{blog.id}</ul>
+              <button className="delete-blog-btn" onClick={() => handleDelete(blog)}>remove</button>
             </li>
           </div>}
     </div> 

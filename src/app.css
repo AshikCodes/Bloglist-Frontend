@@ -29,3 +29,10 @@ ul {
     list-style-type: none;
     padding: 0px;
 }
+
+.delete-blog-btn {
+    background-color: rgb(23, 89, 241);
+    color: black;
+    border: solid 1px;
+    border-radius: 5px;
+}
