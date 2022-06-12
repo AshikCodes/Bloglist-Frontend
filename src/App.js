@@ -14,6 +14,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
   const [msg, setMsg] = useState('')
+  const [sortedArray, setSortedArray] = useState(null)
 
   const [visibility, setVisibility] = useState(false)
 
@@ -21,12 +22,13 @@ const App = () => {
   useEffect( () => {
     // blogService.getAll().then(blogs =>
     //   setBlogs(userBlogs)
+    console.log("got here")
     if(user != null){
       setBlogs(user.blog)
+      setSortedArray(user.blog.sort((a,b) => parseInt(b.likes) - parseInt(a.likes)))
     }
     console.log("blogs is", blogs)
-  }, [user])
-
+  }, [user,sortedArray])
 
   useEffect(() => {
     const loggedInUser = window.localStorage.getItem('loggedBlogUser')
@@ -50,6 +52,7 @@ const App = () => {
       console.log("got here")
       const user = await loginService({username, password})
       setBlogs(user.blog)
+      setSortedArray(user.blog.sort((a,b) => parseInt(b.likes) - parseInt(a.likes)))
       console.log("user is", user)
       blogService.setToken(user.token)
       window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
@@ -70,6 +73,8 @@ const App = () => {
     window.localStorage.removeItem('loggedBlogUser')
     setUser(null)
     setBlogs([])
+    setSortedArray([])
+
   }
 
   const addNewBlog = async (blogObject) => {
@@ -83,6 +88,7 @@ const App = () => {
       user.blog = user.blog.concat(result2)
       window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
       setBlogs(user.blog)
+      setSortedArray(user.blog.sort((a,b) => parseInt(b.likes) - parseInt(a.likes)))
       console.log("USER USER USER IS", user)
       setVisibility(false)
       setMsg(`a new blog ${blogObject.title} by ${user.name} added`)
@@ -119,8 +125,11 @@ const App = () => {
         setVisibility={setVisibility}>
       </CreateBlog>
       }
-      {blogs !== null && blogs.map(blog =>
+      {/* {blogs !== null && blogs.map(blog =>
         <Blog key={blog.id} blog={blog} setBlogs={setBlogs} user={user} />
+      )} */}
+      {sortedArray !== null && sortedArray.map(blog =>
+        <Blog key={blog.id} blog={blog} setBlogs={setBlogs} setSortedArray={setSortedArray} user={user} setUser={setUser} />
       )}
     </div>
   )

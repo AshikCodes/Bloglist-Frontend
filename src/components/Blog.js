@@ -1,9 +1,10 @@
 import { useState } from "react"
 import blogService from "../services/blogs"
 
-const Blog = ({blog,user,setBlogs}) => {
+const Blog = ({blog,user,setBlogs,setSortedArray,setUser}) => {
   const [view, setView] = useState(false)
   const [likeCount, setLikeCount] = useState(0)
+  
 
   const hideWhenVisible = {display: view ? 'none' : ''}
   const showWhenVisible = {display: view ? '': 'none'}
@@ -30,9 +31,12 @@ const Blog = ({blog,user,setBlogs}) => {
 
       var elementPos = user.blog.map(ranBlog => {return ranBlog.id}).indexOf(blog.id)
       user.blog[elementPos] = updatedBlog
+      // setBlogs(user.blog)
+      // setSortedArray(user.blog)
+      // setSortedArray(user.blog.sort((a,b) => parseInt(b.likes) - parseInt(a.likes)))
+      setUser(user)
       window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
 
-      // console.log("elementPos is", elementPos)
 
       console.log("updated blog like is", updatedBlog)
       const result = await blogService.updateBlog(updatedBlog,id)
