@@ -8,20 +8,20 @@ const setToken = (newToken) => {
 }
 const getAll = async () => {
   const request = await axios.get(baseUrl)
-  console.log("request.data is", request.data)
+  console.log('request.data is', request.data)
   // return request.then(response => response.data)
   return request.data
 }
 
 const getUserBlogs = async (id) => {
   const request = await axios.get(`/api/blogs/${id}`)
-  console.log("Request here is", request)
+  console.log('Request here is', request)
   return request.data
 }
 
 const createBlog = async (newBlog) => {
   const config = {
-    headers: {Authorization: token},
+    headers: { Authorization: token },
   }
   const response = await axios.post(baseUrl,newBlog,config)
   return response.data
@@ -35,7 +35,7 @@ const updateBlog = async (newBlog,id) => {
 
 const deleteBlog = async (blogToDelete) => {
   const config = {
-    headers: {Authorization: token},
+    headers: { Authorization: token },
   }
   const response = await axios.delete(`/api/blogs/${blogToDelete}`,config)
   return response.data
