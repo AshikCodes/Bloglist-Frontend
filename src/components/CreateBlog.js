@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from 'prop-types'
 
 const CreateBlog = ({addNewBlog, visibility, setVisibility}) => {
 
@@ -22,6 +23,11 @@ const CreateBlog = ({addNewBlog, visibility, setVisibility}) => {
         setBlogTitle('')
         setBlogAuthor('')
         setBlogUrl('')
+    }
+
+    CreateBlog.propTypes = {
+        addNewBlog: PropTypes.func.isRequired,
+        visibility: PropTypes.bool.isRequired
     }
 
     return ( 

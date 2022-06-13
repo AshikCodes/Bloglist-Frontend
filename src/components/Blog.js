@@ -52,14 +52,18 @@ const Blog = ({blog,user,setBlogs,setSortedArray,setUser}) => {
   }
 
   const handleDelete = async (blog) => {
-    var elementPos = user.blog.map(ranBlog => {return ranBlog.id}).indexOf(blog.id)
-    user.blog.splice(elementPos,1)
-    setUser(user)
-    window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
-    const blogToDelete = await blogService.deleteBlog(blog.id)
-    console.log("blogToDelete is", blogToDelete)
-    setDeleted(true)
-
+    if(window.confirm(`Remove blog ${blog.title} by ${blog.author}`)){
+      var elementPos = user.blog.map(ranBlog => {return ranBlog.id}).indexOf(blog.id)
+      user.blog.splice(elementPos,1)
+      setUser(user)
+      window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
+      const blogToDelete = await blogService.deleteBlog(blog.id)
+      console.log("blogToDelete is", blogToDelete)
+      setDeleted(true)
+    }
+    else {
+      console.log("You canceled")
+    }
   }
 
   return ( 
