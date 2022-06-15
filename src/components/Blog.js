@@ -68,16 +68,25 @@ const Blog = ({ blog,user,setUser }) => {
 
   return (
     <div className="blog-container" style={hideWhenDeleted}>
-      {blog.title}
+      <div className="title-container">
+        {blog.title}
+      </div>
+      <div className="author-container">
+        {blog.author}
+      </div>
       <button onClick={() => setView(true)} style={hideWhenVisible}>view</button>
       <button onClick={() => setView(false)} style={showWhenVisible}>hide</button>
       {view && <div className="expanded-view-container">
         <li className="extra-blog-info">
-          <ul>{blog.url}</ul>
+          <div className="url-container">
+            <ul>{blog.url}</ul>
+          </div>
+          <div className="likes-container">
+            {likeCount === 0 && <ul>likes: {blog.likes} <button onClick={() => handleLikeClick(blog)}>like</button></ul>}
+            {likeCount !== 0 && <ul>likes: {likeCount} <button onClick={() => handleLikeClick(blog)}>like</button></ul>}
+          </div>
           {/* {<ul>likes: {blog.likes} <button onClick={() => handleLikeClick(blog)}>like</button></ul>} */}
-          {likeCount === 0 && <ul>likes: {blog.likes} <button onClick={() => handleLikeClick(blog)}>like</button></ul>}
-          {likeCount !== 0 && <ul>likes: {likeCount} <button onClick={() => handleLikeClick(blog)}>like</button></ul>}
-          <ul>{blog.author}</ul>
+          {/* <ul>{blog.author}</ul> */}
           <ul>{blog.id}</ul>
           <button className="delete-blog-btn" onClick={() => handleDelete(blog)}>remove</button>
         </li>
