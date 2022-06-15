@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog,user,setUser }) => {
+const Blog = ({ blog,user,setUser,handleLikeClick,likeCount }) => {
   const [view, setView] = useState(false)
-  const [likeCount, setLikeCount] = useState(0)
+  // const [likeCount, setLikeCount] = useState(0)
   const [deleted, setDeleted] = useState(false)
 
 
@@ -11,45 +11,42 @@ const Blog = ({ blog,user,setUser }) => {
   const showWhenVisible = { display: view ? '': 'none' }
   const hideWhenDeleted = { display: deleted ? 'none': '' }
 
-  const handleLikeClick = async (blog) => {
-    console.log('likeCount here is', likeCount)
-    console.log('blog here is', blog)
-    const id = blog.id
-    console.log('id is', id)
+  // const handleLikeClick = async (blog) => {
+  //   console.log('likeCount here is', likeCount)
+  //   console.log('blog here is', blog)
+  //   const id = blog.id
+  //   console.log('id is', id)
 
-    const actualBlog = await blogService.getUserBlogs(id)
-    console.log('actualBlog is', actualBlog)
+  //   const actualBlog = await blogService.getUserBlogs(id)
+  //   console.log('actualBlog is', actualBlog)
 
-    try {
-      const updatedBlog = {
-        user: [blog.user[0]],
-        likes: actualBlog.likes + 1,
-        author: blog.author,
-        id: actualBlog.id,
-        title: blog.title,
-        url: blog.url
-      }
-      setLikeCount(updatedBlog.likes)
+  //   try {
+  //     const updatedBlog = {
+  //       user: [blog.user[0]],
+  //       likes: actualBlog.likes + 1,
+  //       author: blog.author,
+  //       id: actualBlog.id,
+  //       title: blog.title,
+  //       url: blog.url
+  //     }
+  //     setLikeCount(updatedBlog.likes)
 
-      var elementPos = user.blog.map(ranBlog => {return ranBlog.id}).indexOf(blog.id)
-      user.blog[elementPos] = updatedBlog
-      // setBlogs(user.blog)
-      // setSortedArray(user.blog)
-      // setSortedArray(user.blog.sort((a,b) => parseInt(b.likes) - parseInt(a.likes)))
-      setUser(user)
-      window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
+  //     var elementPos = user.blog.map(ranBlog => {return ranBlog.id}).indexOf(blog.id)
+  //     user.blog[elementPos] = updatedBlog
+  //     setUser(user)
+  //     window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
 
 
-      console.log('updated blog like is', updatedBlog)
-      const result = await blogService.updateBlog(updatedBlog,id)
-      console.log('user.blog is', user.blog)
-      console.log('Result in liking blog is', result)
+  //     console.log('updated blog like is', updatedBlog)
+  //     const result = await blogService.updateBlog(updatedBlog,id)
+  //     console.log('user.blog is', user.blog)
+  //     console.log('Result in liking blog is', result)
 
-    }
-    catch(error){
-      console.log('error liking blog')
-    }
-  }
+  //   }
+  //   catch(error){
+  //     console.log('error liking blog')
+  //   }
+  // }
 
   const handleDelete = async (blog) => {
     if(window.confirm(`Remove blog ${blog.title} by ${blog.author}`)){

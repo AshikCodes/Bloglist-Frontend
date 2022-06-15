@@ -47,4 +47,26 @@ test('test for when button is clicked', async () => {
 
 })
 
+test('when button is clicked twice', async () => {
+  const blog = {
+    likes: 0,
+    author: 'Me',
+    title: 'Test Blog',
+    url: 'ref4rfg34f.com'
+  }
+  const mockHandlerUpdate = jest.fn()
+
+  render(<Blog blog={blog} handleLikeClick={mockHandlerUpdate} />)
+
+  const user = userEvent.setup()
+  const button = screen.getByText('view')
+  await user.click(button)
+
+  const likeBtn = screen.getByText('like')
+  await user.click(likeBtn)
+  await user.click(likeBtn)
+
+  expect(mockHandlerUpdate.mock.calls).toHaveLength(2)
+})
+
 //CI=true npm test

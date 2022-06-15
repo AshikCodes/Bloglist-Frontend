@@ -15,6 +15,7 @@ const App = () => {
   const [errorMsg, setErrorMsg] = useState('')
   const [msg, setMsg] = useState('')
   const [sortedArray, setSortedArray] = useState(null)
+  const [likeCount, setLikeCount] = useState(0)
 
   const [visibility, setVisibility] = useState(false)
 
@@ -98,6 +99,43 @@ const App = () => {
     }
   }
 
+  const handleLikeClick = async (blog) => {
+    console.log('likeCount here is', likeCount)
+    console.log('blog here is', blog)
+    const id = blog.id
+    console.log('id is', id)
+
+    const actualBlog = await blogService.getUserBlogs(id)
+    console.log('actualBlog is', actualBlog)
+
+    try {
+      const updatedBlog = {
+        user: [blog.user[0]],
+        likes: actualBlog.likes + 1,
+        author: blog.author,
+        id: actualBlog.id,
+        title: blog.title,
+        url: blog.url
+      }
+      setLikeCount(updatedBlog.likes)
+
+      var elementPos = user.blog.map(ranBlog => {return ranBlog.id}).indexOf(blog.id)
+      user.blog[elementPos] = updatedBlog
+      setUser(user)
+      window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
+
+
+      console.log('updated blog like is', updatedBlog)
+      const result = await blogService.updateBlog(updatedBlog,id)
+      console.log('user.blog is', user.blog)
+      console.log('Result in liking blog is', result)
+
+    }
+    catch(error){
+      console.log('error liking blog')
+    }
+  }
+
   return (
     <div>
       <h2>blogs</h2>
@@ -126,7 +164,7 @@ const App = () => {
         <Blog key={blog.id} blog={blog} setBlogs={setBlogs} user={user} />
       )} */}
       {sortedArray !== null && sortedArray.map(blog =>
-        <Blog key={blog.id} blog={blog} setBlogs={setBlogs} setSortedArray={setSortedArray} user={user} setUser={setUser} />
+        <Blog key={blog.id} blog={blog} handleLikeClick={handleLikeClick} likeCount={likeCount} setLikeCount={setLikeCount}setBlogs={setBlogs} setSortedArray={setSortedArray} user={user} setUser={setUser} />
       )}
     </div>
   )
