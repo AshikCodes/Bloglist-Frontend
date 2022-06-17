@@ -36,9 +36,9 @@ const CreateBlog = ({ addNewBlog, visibility, setVisibility }) => {
         <button onClick={() => setVisibility(true)} className="creatBlog-btn">create</button>
       </div>
       {visibility && <form onSubmit={addBlog}>
-        <label>Title:</label><input type="text" value={blogTitle} onChange={(e) => setBlogTitle(e.target.value)} name="blog-title"/>
-        <label>Author:</label><input type="text" value={blogAuthor} onChange={(e) => setBlogAuthor(e.target.value)} name="blog-author"/>
-        <label>Url:</label><input type="text" value={blogUrl} onChange={(e) => setBlogUrl(e.target.value)} name="blog-url"/>
+        <label>Title:</label><input placeholder='title content' type="text" value={blogTitle} onChange={(e) => setBlogTitle(e.target.value)} name="blog-title"/>
+        <label>Author:</label><input placeholder='author content'type="text" value={blogAuthor} onChange={(e) => setBlogAuthor(e.target.value)} name="blog-author"/>
+        <label>Url:</label><input placeholder='url content' type="text" value={blogUrl} onChange={(e) => setBlogUrl(e.target.value)} name="blog-url"/>
         <div style={showWhenVisible}>
           <button type='submit'>create blog</button>
         </div>
