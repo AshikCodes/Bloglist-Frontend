@@ -4,11 +4,11 @@ const Login = ({ handleLogin,username,password,setUsername,setPassword }) => {
       <form onSubmit={handleLogin}>
         <div className="username-container">
             username
-          <input type='text' value={username} onChange={(e) => setUsername(e.target.value)} name='username'/>
+          <input id = 'username' type='text' value={username} onChange={(e) => setUsername(e.target.value)} name='username'/>
         </div>
         <div className="password-container">
             password
-          <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} name='password'/>
+          <input id = 'password' type='password' value={password} onChange={(e) => setPassword(e.target.value)} name='password'/>
         </div>
         <button type='submit'>Login</button>
       </form>
